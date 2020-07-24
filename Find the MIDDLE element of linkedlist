@@ -1,0 +1,65 @@
+#include<bits/stdc++.h>
+#define ll long long int
+using namespace std;
+class linked_list
+{
+  public:
+    ll data;
+    linked_list *next;
+    linked_list()
+    {
+        this->next=NULL;
+    }
+    linked_list(ll data)
+    {
+        this->data=data;
+        this->next=NULL;
+    }
+    linked_list *add(ll data,linked_list *head)
+    {
+        if(head==NULL)
+        {
+            linked_list *temp=new linked_list(data);
+            head=temp;
+        }
+        else
+        {
+            auto temp=head;
+            while(temp->next!=NULL)
+              temp=temp->next;
+            temp->next=new linked_list(data);
+        }
+        return head;
+    }
+    void show(linked_list *head)
+    {
+       auto temp=head;
+       while(temp!=NULL)
+       {
+           cout<<temp->data<<" ";
+           temp=temp->next;
+       }
+    }
+    ll middle(linked_list *head)
+    {
+        auto fp=head;auto sp=head;
+        while(fp!=NULL and fp->next!=NULL)
+        {
+            sp=sp->next;
+            fp=fp->next->next;
+        }
+        return sp->data;
+    }
+};
+int main()
+{
+    linked_list *head=NULL;
+    ll n;cin>>n;
+    ll a[n],i;
+    for(i=0;i<n;i++) cin>>a[i];
+    for(i=0;i<n;i++)
+       head=head->add(a[i],head);
+   
+    //head->show(head);
+    cout<<head->middle(head);
+}
