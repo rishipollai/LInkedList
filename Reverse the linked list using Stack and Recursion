@@ -1,0 +1,116 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+stack<ll> st;
+class linked_list
+{
+  public:
+   ll data;
+   linked_list *next;
+   linked_list()
+   {
+      this->next=NULL;
+   }
+   linked_list(ll data)
+   {
+     this->data=data;
+     this->next=NULL;
+   }
+   linked_list *add(auto head,auto data)
+   {
+      if(head==NULL)
+      {
+         linked_list *temp=new linked_list(data);
+         head=temp;
+      }
+      else
+      {
+         linked_list *temp=head;
+         while(temp->next)
+           temp=temp->next;
+         temp->next=new linked_list(data);
+      }
+      return head;
+   }
+   ll show(auto head)
+   {
+       linked_list *temp=head;
+       while(temp)
+       {
+           cout<<temp->data<<" ";
+           st.push(temp->data);
+           temp=temp->next;
+       }
+   }
+   ll middle(auto head)
+   {
+      linked_list *sp,*fp;
+      sp=head;fp=head;
+      while(fp and fp->next)
+      {
+         sp=sp->next;
+         fp=fp->next->next;
+      }
+      return sp->data;
+   }
+   linked_list *deletemiddle(auto head)
+   {
+       linked_list *sp,*fp,*temp;
+       sp=head;fp=head;temp=head;
+       while(fp and fp->next)
+       {
+          temp=sp;
+          sp=sp->next;
+          fp=fp->next->next;
+       }
+       temp->next=sp->next;
+       delete sp;
+      return head;  
+   }
+   ll reverse_list(auto head)
+   {
+       if(head==NULL)
+           return false;
+      reverse_list(head->next);
+      cout<<head->data<<" ";
+   }
+   bool pali_list(auto &left,auto right)
+   {
+        if(right==NULL)
+           return true;
+      bool first=pali_list(left,right->next);
+      if(first==false)
+          return false;
+      bool second=(left->data==right->data);
+      left=left->next;
+      return second;
+   }
+};
+int main()
+{
+   linked_list *head=NULL;
+   ll n,i;cin>>n;
+   ll a[n];
+   for(i=0;i<n;i++) cin>>a[i];
+
+   for(i=0;i<n;i++)
+     head=head->add(head,a[i]);
+   head->show(head);
+   cout<<endl;
+
+   while(!st.empty())
+   {
+      cout<<st.top()<<" ";
+      st.pop();
+   }
+   cout<<endl;
+   head->reverse_list(head);
+   cout<<endl;
+   bool tr=head->pali_list(head,head);
+   if(tr==true)
+      cout<<"palindrome";
+   else
+      cout<<"not palindrome";
+
+   
+}
