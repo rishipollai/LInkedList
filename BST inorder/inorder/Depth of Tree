@@ -1,0 +1,186 @@
+#include<bits/stdc++.h>
+#define ll long long int
+#define fast ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define endl "\n"
+using namespace std;
+class tree
+{   
+    public:
+      ll value;
+      tree *left,*right;
+    tree(ll data)
+    {
+        this->value=data;
+        this->left=this->right=NULL;
+    }
+    auto insrt(ll data,auto root)
+    {
+        if(root==NULL)
+          return new tree(data);
+        if(data<root->value)
+           root->left=insrt(data,root->left);
+        else
+          root->right=insrt(data,root->right);
+        
+        return root;
+    }
+    void inordr(auto root)
+    {
+        if(root==NULL)
+           return;
+        inordr(root->left);
+        cout<<root->value<<" ";
+        inordr(root->right);
+    }
+    void preordr(auto root)
+    {
+        if(root==NULL)
+           return;
+        cout<<root->value<<" ";
+        preordr(root->left);
+        preordr(root->right);
+    }
+    void postordr(auto root)
+    {
+        if(root==NULL)
+           return;
+        postordr(root->left);
+        postordr(root->right);
+        cout<<root->value<<" ";
+    }
+    void level_order_traversal(auto root)
+    {
+        queue<tree *> q;
+        q.push(root);
+        while(!q.empty())
+        {
+            auto temp=q.front();
+            q.pop();
+            cout<<temp->value<<" ";
+            if(temp->left!=NULL)
+               q.push(temp->left);
+            if(temp->right!=NULL)
+               q.push(temp->right);
+        }
+    }
+    void left_view(auto root)
+    {
+        queue<tree *> q;
+        q.push(root);
+        while(!q.empty())
+        {
+            ll sz=q.size();
+            for(ll i=1;i<=sz;i++)
+            {
+                auto temp=q.front();
+                  q.pop();
+                if(i==1)
+                   cout<<temp->value<<" ";
+                if(temp->left!=NULL)
+                  q.push(temp->left);
+                if(temp->right!=NULL)
+                  q.push(temp->right);
+            }
+        }
+    }
+    void right_view(auto root)
+    {
+        queue<tree *> q;
+        q.push(root);
+        while(!q.empty())
+        {
+            ll sz=q.size();
+            for(ll i=1;i<=sz;i++)
+            {
+                auto temp=q.front();
+                q.pop();
+                if(i==sz)
+                  cout<<temp->value<<" ";
+                if(temp->left!=NULL)
+                  q.push(temp->left);
+                if(temp->right!=NULL)
+                  q.push(temp->right);
+            }
+
+        }
+    }
+    void top_view(auto root)
+    {
+        map<ll,ll> mp;
+        queue<pair<tree *,ll>> q;
+        q.push({root,0});
+        while(!q.empty())
+        {
+            auto temp=q.front();
+            q.pop();
+            ll hd=temp.second;
+            auto node=temp.first;
+            if(mp.count(hd)==0)
+                mp[hd]=node->value;
+            if(node->left)
+                q.push({node->left,hd-1});
+            if(node->right)
+                q.push({node->right,hd+1});
+        }
+        for(auto x:mp)
+          cout<<x.second<<" ";
+    }
+    void bottom_view(auto root)
+    {
+        map<ll,ll> mp;
+        queue<pair<tree *,ll>> q;
+        q.push({root,0});
+        while(!q.empty())
+        {
+            auto temp=q.front();
+            q.pop();
+            ll hd=temp.second;
+            auto node=temp.first;
+                mp[hd]=node->value;
+            if(node->left)
+                q.push({node->left,hd-1});
+            if(node->right)
+                q.push({node->right,hd+1});
+        }
+        for(auto x:mp)
+          cout<<x.second<<" ";
+    }
+    ll get_tree_height(auto root)
+    {
+        if(root==NULL)
+          return 0;
+        ll left=get_tree_height(root->left);
+        ll right=get_tree_height(root->right);
+        return 1+max(left,right);
+    }
+
+
+};
+int main()
+{
+     tree *root=NULL;
+     root=root->insrt(5,root);
+     root=root->insrt(1,root);
+     root=root->insrt(7,root);
+     root=root->insrt(2,root);
+     root=root->insrt(9,root);
+     root->inordr(root);
+     cout<<endl;
+     root->preordr(root);
+     cout<<endl;
+     root->postordr(root);
+     cout<<endl;
+     root->level_order_traversal(root);
+     cout<<endl;
+     root->left_view(root);
+     cout<<endl;
+     root->right_view(root);
+     cout<<endl;
+     root->top_view(root);
+     cout<<endl;
+     root->bottom_view(root);
+     cout<<endl;
+     ll k=root->get_tree_height(root);
+     cout<<k<<endl;
+
+}
