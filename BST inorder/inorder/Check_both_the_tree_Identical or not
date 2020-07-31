@@ -1,0 +1,87 @@
+#include<bits/stdc++.h>
+#define ll long long int
+#define fast ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define endl "\n"
+using namespace std;
+class tree
+{  
+    public:
+       ll value;
+       tree *left,*right;
+    tree(ll data)
+    {
+        this->value=data;
+        this->left=this->right=NULL;
+    }
+    tree *instr(ll data,auto root)
+    {
+        if(root==NULL)
+           return new tree(data);
+        else if(data<root->value)
+           root->left=instr(data,root->left);
+        else
+           root->right=instr(data,root->right);
+        return root;
+    }
+    void inordr(auto root)
+    {
+        if(root==NULL)
+           return;
+        inordr(root->left);
+        cout<<root->value<<" ";
+        inordr(root->right);
+    }
+    tree *create_inorder_preorder(ll &pre_idx,ll st,ll end,ll *pre,auto &mp)
+    {
+         if(st>end)
+            return NULL;
+         tree *root=new tree(pre[pre_idx]);
+         ll idx=mp[pre[pre_idx]];
+         pre_idx++;
+         root->left=create_inorder_preorder(pre_idx,st,idx-1,pre,mp);
+         root->right=create_inorder_preorder(pre_idx,idx+1,end,pre,mp);
+        
+        return root;
+    }
+
+};
+bool is_check_identical(auto root,auto root1)
+{
+    if(root==NULL and root1==NULL)
+        return true;
+    if(root==NULL or root1==NULL)
+        return false;
+    if(root->value!=root1->value)
+         return false;
+    return is_check_identical(root->left,root1->left) and
+           is_check_identical(root->right,root1->right);
+}
+int main()
+{
+    tree *root=NULL;
+    root=root->instr(5,root);
+    root=root->instr(2,root);
+    root=root->instr(8,root);
+    root=root->instr(3,root);
+    root=root->instr(6,root);
+    root->inordr(root);
+    cout<<endl;
+
+    tree *root1=NULL;
+    ll ino[]={3,1,4,0,5,2};
+    ll pre[]={0,1,3,4,2,5};
+    unordered_map<ll,ll> mp;
+    for(ll i=0;i<6;i++)
+        mp[ino[i]]=i;
+    ll pre_idx=0;
+
+    root1=root1->create_inorder_preorder(pre_idx,0,5,pre,mp);
+    root1->inordr(root1);
+
+    cout<<endl;
+    cout<<is_check_identical(root,root1);
+    
+    
+
+ 
+}
