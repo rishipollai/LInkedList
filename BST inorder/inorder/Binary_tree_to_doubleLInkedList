@@ -1,0 +1,74 @@
+#include<bits/stdc++.h>
+#define ll long long int
+#define fast ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define endl "\n"
+using namespace std;
+class tree
+{  
+    public:
+       ll value;
+       tree *left,*right;
+    tree(ll data)
+    {
+        this->value=data;
+        this->left=this->right=NULL;
+    }
+    tree *instr(ll data,auto root)
+    {
+        if(root==NULL)
+           return new tree(data);
+        else if(data<root->value)
+           root->left=instr(data,root->left);
+        else
+           root->right=instr(data,root->right);
+        return root;
+    }
+    void inordr(auto root)
+    {
+        if(root==NULL)
+           return;
+        inordr(root->left);
+        cout<<root->value<<" ";
+        inordr(root->right);
+    }
+    void binary_tree_to_dll(auto root,auto &head,auto &prev)
+    {
+        if(root==NULL)
+          return;
+        binary_tree_to_dll(root->left,head,prev);
+        if(prev==NULL)
+           head=root;
+        else
+        {
+           root->left=prev;
+           prev->right=root;
+        }
+        prev=root;
+        binary_tree_to_dll(root->right,head,prev);
+    }
+
+};
+int main()
+{
+    tree *root=NULL;
+    root=root->instr(5,root);
+    root=root->instr(2,root);
+    root=root->instr(8,root);
+    root=root->instr(3,root);
+    root=root->instr(6,root);
+    root->inordr(root);
+    cout<<endl;
+    tree *head=NULL,*prev=NULL;
+    root->binary_tree_to_dll(root,head,prev);
+     
+    auto temp=head;
+    while(temp)
+    {
+        cout<<temp->value<<" ";
+        temp=temp->right;
+    }
+
+
+    
+    
+}
