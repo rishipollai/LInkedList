@@ -55,4 +55,49 @@ for i in it:
 AverageNger(1,3,4)
 AverageNger(1,3,4,5,6,7)
 AverageNger(3,4)
+     
+     
+       Instace Member Variable with Dict 
+==========================================
+
+class Test:
+    def __init__(self):
+        self.a=10
+    def val(self):
+        self.b=20
+    
+ob=Test()
+obb=Test()
+ob.val()
+ob.x=30
+print(ob.__dict__)
+print(obb.__dict__)
+
+  factorial using lambda and recursion
+==========================================
+
+f =lambda n:1 if n==0 else n*f(n-1)
+r=f(5)
+print(r)
+
+   List Comprehension
+=============================
+
+l=[i for i in range(1,11)]
+
+l2=[i for i in l if i%2==0]
+
+print(l)
+print(l2)
+
+ String Revese using list and string
+=========================================
+
+s="this is rishi"
+l=s.split(' ')
+l.reverse()
+s=' '.join(l)
+
+print(l)
+print(s)
 
