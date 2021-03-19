@@ -45,4 +45,14 @@ def isPrime(num):
 it =primeGenerator(10)
 for i in it:
     print(i,end=' ')
+===============================================================================
+     find avergae with variable number argument
+     
+     def AverageNger(*t):
+    avg=sum(t)//len(t);
+    print(avg)
+    
+AverageNger(1,3,4)
+AverageNger(1,3,4,5,6,7)
+AverageNger(3,4)
 
