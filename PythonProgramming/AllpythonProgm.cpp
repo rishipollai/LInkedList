@@ -100,4 +100,36 @@ s=' '.join(l)
 
 print(l)
 print(s)
+ 
+   Iteration method
+==========================
+
+my_list=[2,3,4,5,6]
+it=iter(my_list)
+while True:
+    try:
+        print(next(it))
+    except StopIteration:
+        break
+
+ Even Number using iterator
+=============================
+def GeneratorEven(n):
+    i=1;
+    while n:
+        yield i*2
+        i+=1
+        n-=1
+        
+it=GeneratorEven(10)
+list =[]
+while True:
+    try:
+        list.append(next(it))
+    except:
+        break
+print(list)
+
+
+
 
