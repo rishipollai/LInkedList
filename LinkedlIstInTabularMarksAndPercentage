@@ -1,0 +1,180 @@
+//first step to create first linkedlist then add marks to it 
+//second linkedlist contains marks and Percentage calculated by first linkedlist
+//for displaying data in tabular format , interate over the second linkedlist and add little bit of logic to it
+
+
+#include <iostream>
+using namespace std;
+
+int max_mark;
+
+//linked list class for storing marks and Percentage !!
+class linked
+{
+  public:
+    int data;
+    linked *next;
+    linked()
+    {
+        this->next=NULL;
+    }
+    linked(int data)
+    {
+        this->data=data;
+        this->next=NULL;
+    }
+    
+    //add function to add data into linkedlist !!
+    linked *add(int data,linked *head)
+    {
+        if(head==NULL)
+        {
+            linked *temp=new linked(data);
+            head=temp;
+        }
+        else
+        {
+            auto temp=head;
+            while(temp->next!=NULL)
+              temp=temp->next;
+            temp->next=new linked(data);
+        }
+        return head;
+    }
+    
+    //show function will show the mark and Percentage !!
+    void show(linked *head)
+    {
+      cout<<"Mark Percentage :"<<endl;
+      auto temp=head;
+      
+      //taking k,j,l value only for tabular format !!
+      int k=0,j=0,l=0;
+      while(temp!=NULL)
+      {
+          k++;j++;l++;
+          cout<<temp->data<<" ";
+          temp=temp->next;
+          if(l==1){
+            cout<<"    ";
+          }
+          if(j==2 and k==2){
+             cout<<"%";
+             j=0;
+             l=0;
+          }
+          if(k==2){
+            cout<<endl;
+            k=0;
+          }
+      }
+    }
+   
+};
+
+//linkedlist class for storing only marks 
+class linked_list
+{
+  public:
+    int data;
+    //tanking the second linkedlist head==null
+    linked *head1=NULL;
+    
+    linked_list *next;
+    linked_list()
+    {
+        this->next=NULL;
+    }
+    linked_list(int data)
+    {
+        this->data=data;
+        this->next=NULL;
+    }
+    
+    //add function to add marks by user input !!
+    linked_list *add(int data,linked_list *head)
+    {
+        if(head==NULL)
+        {
+            linked_list *temp=new linked_list(data);
+            head=temp;
+        }
+        else
+        {
+            auto temp=head;
+            while(temp->next!=NULL)
+              temp=temp->next;
+            temp->next=new linked_list(data);
+        }
+        return head;
+    }
+    
+    //show function will show the marks !!
+    void show(linked_list *head)
+    {
+       cout<<"Marks in all subjects are :"<<endl;
+       auto temp=head;
+       while(temp!=NULL)
+       {
+           cout<<temp->data<<" ";
+           temp=temp->next;
+       }
+       cout<<endl<<endl;
+       
+       
+       //here called the linked class that will show both marks and percetage !!
+       head1->show(head1);
+    }
+    
+    //this function calculate percentage then add it to another linkedlist class
+    void percent_calculate(linked_list *head){
+        auto temp=head;
+        while(temp!=NULL){
+            int percent=(float(temp->data)/max_mark)*100;
+            
+            //adding marks to another linkedlist
+            head1=head1->add(temp->data,head1);
+            //adding percentage to another linkedlist
+            head1=head1->add(percent,head1);
+            
+            
+            temp=temp->next;
+        }
+      
+    }
+   
+};
+
+int main() 
+{
+   
+    //taking the head of first linkedlist to null
+    linked_list *head=NULL;
+    int n;
+    cout<<"Enter no of subject :"<<endl;
+    cin>>n;
+    int score_mark;
+    cout<<"Enter maximum mark :"<<endl;
+    cin>>max_mark;
+    for(int i=0;i<n;i++){
+       cout<<"Enter Scored mark of subject "<<i+1<<" is :"<<endl;
+       cin>>score_mark;
+       //inserting marks to first linkedlist
+       head=head->add(score_mark,head);
+    }
+    
+
+    head->percent_calculate(head);
+    cout<<endl<<endl;
+    
+    head->show(head);
+    cout<<endl<<endl;
+    
+    
+}
+
+
+
+
+
+
